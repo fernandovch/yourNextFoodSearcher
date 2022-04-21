@@ -1,19 +1,19 @@
 import Head from 'next/head'
-import Image from 'next/image'
+import Link from 'next/link'
 import styles from '../styles/Home.module.css'
 import { useState } from 'react'
 
 export default function Home({data}) {
 
-  const [dataFood, setDataFood] = useState({})
+  const [searchValue, setSearchValue] = useState('')
 
   //setDataFood(data.foods)
 
   const elements = data.foods.map((food =>{
     return(
-    <div className={styles.card}>
+    <div className={styles.card} key={food.fdcId}>
       <h2 > Description: {food.description}</h2>
-      <h2 > Brand: {food.brandOwner}</h2>
+      <span > Ingredients: {food.ingredients}</span>
     </div>)
 
   }))
@@ -31,8 +31,21 @@ export default function Home({data}) {
         <h1 >
           Welcome to Food Searcher 
         </h1>
-        <div >
-        {elements}
+        
+
+
+        <div className={styles.grid} >
+        <section className={styles.section}>
+            <input                        
+            placeholder='Search posts'
+            type='text'
+            onKeyUp={(event) =>{ setSearchValue(event.currentTarget.value) }}
+          />
+           <Link href={`/?term=`+searchValue } as={`/?term=`+searchValue }>
+                <a>Search</a>
+              </Link>
+        </section>
+         {elements} 
         </div>
 
 
